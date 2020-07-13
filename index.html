@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      outline: none;
+    }
+    body {
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      background-color: #c4c4c4;
+      width: 800px;
+      height: 200px;
+      padding: 25px;
+      overflow: hidden;
+    }
+
+    .wrapper {
+      display: flex;
+      border: solid 1px red;
+      position: relative;
+    }
+
+    .blue, .pink {
+      display: flex;
+      position: absolute;
+    }
+    .itemblue, .itempink {
+      height: 200px;
+      width: 200px;
+      background-color: #8ba5ff;
+      margin: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: solid 1px black;
+ 
+    }
+    .itempink {
+      background-color: #ff8bd8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="wrapper">
+      <div class="blue">
+        <div class="itemblue">1</div>
+        <div class="itemblue">2</div>
+        <div class="itemblue">3</div>
+        <div class="itemblue">4</div>
+      </div>
+      <div class="pink">
+        <div class="itempink">1</div>
+        <div class="itempink">2</div>
+        <div class="itempink">3</div>
+        <div class="itempink" id="target">4</div>
+      </div>
+    </div>
+  </div>
+  
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.0/Draggable.min.js"></script>
+<script>
+
+  
+  Draggable.create( ".wrapper", {
+    type: 'x',
+  } );
+  //
+  function offset(el) {
+    var rect = el.getBoundingClientRect(),
+    scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+    scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    return { top: rect.top + scrollTop, left: rect.left + scrollLeft }
+  }
+  
+  // example use
+  
+  var pink = document.querySelector('.pink');
+  var myTarget = document.querySelector('#target');
+  var myTargetPosition = myTarget.getBoundingClientRect();
+  var myContainer = document.querySelector('.container');
+  var wrapper = document.querySelector('.wrapper');
+
+  gsap.set('.pink', { left: myContainer.offsetWidth })
+
+document.addEventListener('mousemove', function() {
+  
+  if(offset(myContainer).left > offset(myTarget).left - myContainer.offsetWidth + myTarget.offsetWidth) {
+    gsap.set('.blue', { left: myContainer.offsetWidth * 2 })
+  }
+  
+})
+</script>
+</html>
